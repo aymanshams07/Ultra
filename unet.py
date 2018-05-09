@@ -4,7 +4,8 @@ from skimage.io import imsave
 import numpy as np
 from keras.models import Model
 from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, Conv2DTranspose
-from keras.optimizers import RMSprop
+from keras.layers import BatchNormalization #Dropout
+from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 from keras import backend as K
 
@@ -80,7 +81,7 @@ def get_unet():
     
     model = Model(inputs=[inputs], outputs=[conv10])
 
-    model.compile(optimizer=RMSprop(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
+    model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
 
     return model
     
