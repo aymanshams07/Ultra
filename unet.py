@@ -74,7 +74,7 @@ def get_unet():
     up9 = concatenate([Conv2DTranspose(32, (2, 2), strides=(2, 2), padding='same')(conv8), conv1], axis=3)
     conv9 = Conv2D(32, (3, 3), activation='elu', padding='same')(up9)
     conv9 = Conv2D(32, (3, 3), activation='elu', padding='same')(conv9)
-    #conv5 = Dropout(0.5)(conv5)
+    
     
     conv10 = Conv2D(1, (1, 1), activation='sigmoid')(conv9)
     
