@@ -14,21 +14,21 @@ from data import load_train_data, load_test_data
 K.set_image_data_format('channels_last')  # TF dimension ordering in this code
 
 img_rows = 96
-img_cols = 96
+img_cols = 96.
 
 smooth = 1.
 
 def dice_coef_loss(y_true, y_pred):
     return -dice_coef(y_true, y_pred)
     
-    #conv2D -- ELU -- Batchnorm--conv2D --ELU--Batchnorm--maxpool--conv2d
+   
 def get_unet():
     inputs = Input((img_rows, img_cols, 1))
     conv1 = Conv2D(32, (3, 3), activation='elu', padding='same')(inputs)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
     conv1 = Conv2D(32, (3, 3), activation='elu', padding='same')(conv1)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
-    pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
+    pool1 = MaxPooling2D(pool_size=(2, 2))/(conv1)
     
     
     conv2 = Conv2D(64, (3, 3), activation='elu', padding='same')(pool1)
