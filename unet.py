@@ -1,14 +1,9 @@
-from __future__ import print_function
-
 import os
 from skimage.transform import resize
 from skimage.io import imsave
 import numpy as np
 from keras.models import Model
 from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, Conv2DTranspose
-#add batchnormalization here
-from keras.layers import BatchNormalization #Dropout
-#from keras.layers.advanced_activations import ELU
 from keras.optimizers import RMSprop
 from keras.callbacks import ModelCheckpoint
 from keras import backend as K
@@ -32,44 +27,43 @@ def get_unet():
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
     conv1 = Conv2D(32, (3, 3), activation='elu', padding='same')(conv1)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
-    
     pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
-    #pool1 = Dropout(0.5)(pool1)
+    
     
     conv2 = Conv2D(64, (3, 3), activation='elu', padding='same')(pool1)
     conv2 = BatchNormalization(axis=1, momentum=0.99)(conv2)
     conv2 = Conv2D(64, (3, 3), activation='elu', padding='same')(conv2)
     conv2 = BatchNormalization(axis=1, momentum=0.99)(conv2)
     pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
-    #pool2 = Dropout(0.5)(pool2)
+    
     
     conv3 = Conv2D(128, (3, 3), activation='elu', padding='same')(pool2)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
     conv3 = Conv2D(128, (3, 3), activation='elu', padding='same')(conv3)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
     pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
-    #pool3 = Dropout(0.5)(pool3)
+    
     
     conv4 = Conv2D(256, (3, 3), activation='elu', padding='same')(pool3)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
     conv4 = Conv2D(256, (3, 3), activation='elu', padding='same')(conv4)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
     pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
-    #pool4 = Dropout(0.5)(pool4)
+    
     
     conv5 = Conv2D(512, (3, 3), activation='elu', padding='same')(pool4)
     conv5 = Conv2D(512, (3, 3), activation='elu', padding='same')(conv5)
-    #conv5 = Dropout(0.5)(conv5)
+   
     
     up6 = concatenate([Conv2DTranspose(256, (2, 2), strides=(2, 2), padding='same')(conv5), conv4], axis=3)
     conv6 = Conv2D(256, (3, 3), activation='elu', padding='same')(up6)
     conv6 = Conv2D(256, (3, 3), activation='elu', padding='same')(conv6)
-    #conv5 = Dropout(0.5)(conv5)
+    
     
     up7 = concatenate([Conv2DTranspose(128, (2, 2), strides=(2, 2), padding='same')(conv6), conv3], axis=3)
     conv7 = Conv2D(128, (3, 3), activation='elu', padding='same')(up7)
     conv7 = Conv2D(128, (3, 3), activation='elu', padding='same')(conv7)
-    #conv5 = Dropout(0.5)(conv5)
+    
     
     up8 = concatenate([Conv2DTranspose(64, (2, 2), strides=(2, 2), padding='same')(conv7), conv2], axis=3)
     conv8 = Conv2D(64, (3, 3), activation='elu', padding='same')(up8)
