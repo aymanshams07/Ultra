@@ -43,7 +43,7 @@ def get_unet():
     conv3 = Conv2D(128, (3, 3), activation='elu', padding='same')(conv3)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
     pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
-    
+    #
     
     conv4 = Conv2D(256, (3, 3), activation='elu', padding='same')(pool3)
     conv1 = BatchNormalization(axis=1, momentum=0.99)(conv1)
