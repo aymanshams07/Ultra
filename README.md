@@ -1,6 +1,4 @@
 # Ultra
-
-#First comment
-#need to update the script with extensions 
+#areas to check
 #data augmentation
 #tansfer learning
